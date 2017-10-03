@@ -1,11 +1,11 @@
 // leave off @2x/@3x
 const images = {
-  logo: require('../Images/ir.png'),
+  logo: require('../Images/GP.png'),
   clearLogo: require('../Images/top_logo.png'),
   launch: require('../Images/launch-icon.png'),
   ready: require('../Images/your-app.png'),
-  ignite: require('../Images/ignite_logo.png'),
-  igniteClear: require('../Images/ignite-logo-transparent.png'),
+  GPw: require('../Images/gpLogoW.png'),
+  GPb: require('../Images/gpLogoB.png'),
   tileBg: require('../Images/tile_bg.png'),
   background: require('../Images/BG.png'),
   buttonBackground: require('../Images/button-bg.png'),
@@ -19,7 +19,12 @@ const images = {
   chevronRight: require('../Images/Icons/chevron-right.png'),
   hamburger: require('../Images/Icons/hamburger.png'),
   backButton: require('../Images/Icons/back-button.png'),
-  closeButton: require('../Images/Icons/close-button.png')
+  closeButton: require('../Images/Icons/close-button.png'), 
+  gallery: require('../Images/Icons/gallery2x.png'),
+  form: require('../Images/Icons/form2x.png'),
+  weather: require('../Images/Icons/weather2x.png'),
+  map: require('../Images/Icons/map2x.png'),
+  contact: require('../Images/Icons/contact2x.png'),
 }
 
 export default images

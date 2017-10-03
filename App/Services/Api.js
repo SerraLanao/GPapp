@@ -2,7 +2,8 @@
 import apisauce from 'apisauce'
 
 // our "constructor"
-const create = (baseURL = 'https://api.github.com/') => {
+const create = (baseURL = 'http://appsgp.pacifico-meetings.com/RESTAPI/src/') => {
+//const create = (baseURL = 'http://api.github.com') => {
   // ------
   // STEP 1
   // ------
@@ -35,8 +36,12 @@ const create = (baseURL = 'https://api.github.com/') => {
   // way at this level.
   //
   const getRoot = () => api.get('')
-  const getRate = () => api.get('rate_limit')
-  const getUser = (username) => api.get('search/users', {q: username})
+  const getRate = () => api.get('/hello')
+  const getUser = (username) => api.get('/hola/', {q: username})
+  const postForm = (form) => api.post('/form', {form: form})
+  const getWeather = () => api.get('/weather')
+  const getChatList = () => api.get('/chatlist')
+  const getGallery = () => api.get('/gallery')
 
   // ------
   // STEP 3
@@ -54,7 +59,11 @@ const create = (baseURL = 'https://api.github.com/') => {
     // a list of the API functions from step 2
     getRoot,
     getRate,
-    getUser
+    getUser,
+    postForm,
+    getWeather,
+    getChatList,
+    getGallery
   }
 }
 
