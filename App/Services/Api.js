@@ -39,6 +39,7 @@ const create = (baseURL = 'http://appsgp.pacifico-meetings.com/RESTAPI/src/') =>
   const getRate = () => api.get('/hello')
   const getUser = (username) => api.get('/hola/', {q: username})
   const postForm = (form) => api.post('/form', {form: form})
+  const postLogin = (login) => api.post('/login', {login: login})
   const getWeather = () => api.get('/weather')
   const getChatList = () => api.get('/chatlist')
   const getGallery = () => api.get('/gallery')
@@ -61,6 +62,7 @@ const create = (baseURL = 'http://appsgp.pacifico-meetings.com/RESTAPI/src/') =>
     getRate,
     getUser,
     postForm,
+    postLogin,
     getWeather,
     getChatList,
     getGallery

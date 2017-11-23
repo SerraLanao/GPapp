@@ -1,18 +1,41 @@
 import React, { Component } from 'react'
-import { Alert, View, Image, TouchableOpacity, ScrollView, Text, KeyboardAvoidingView } from 'react-native'
+import { Alert, View, Image, TouchableOpacity, ScrollView, Text, KeyboardAvoidingView,AsyncStorage } from 'react-native'
 import { Form,Separator,InputField, LinkField,SwitchField, PickerField,DatePickerField,TimePickerField} from 'react-native-form-generator';
 import { Images } from '../Themes'
 import Icon from 'react-native-vector-icons/FontAwesome'
 import { connect } from 'react-redux'
 import RoundedButton from '../Components/RoundedButton'
-import API from '../Services/Api'
+import { StackNavigator } from 'react-navigation'
+import API from '../Services/Api.js'
+import md5 from "react-native-md5";
+
 // Add Actions - replace 'Your' with whatever your reducer is called :)
 // import YourActions from '../Redux/YourRedux'
 
 // Styles
-import styles from './Styles/FormScreenStyle'
+import styles from './Styles/LoginScreenStyle'
 
-class FormularioScreen extends Component {
+/*
+class LoginScreen extends Component {
+  
+    <ScrollView style={styles.container}>
+      <KeyboardAvoidingView behavior='position'>
+        <Text>LoginScreen</Text>
+      </KeyboardAvoidingView>
+    </ScrollView>
+  render () {
+    return (
+      <View style={styles.mainContainer}>
+        <TextInput
+        style={{height: 40, borderColor: 'gray', borderWidth: 1}}
+      />
+      </View>
+    )
+  }
+}
+*/
+
+class LoginScreen extends Component {
   
   constructor(props){
     super(props);
@@ -52,10 +75,11 @@ class FormularioScreen extends Component {
   sendForm(){
 
     if (!this.state.email){
-      Alert.alert("email -->"+this.state.formData.email)  
+      Alert.alert("Email incorrecto");  
       return false;
     }
-    
+
+    this.state.formData.passwd = md5.hex_md5( this.state.formData.passwd);
 
     var servSend = JSON.stringify(this.state.formData)
 
@@ -66,38 +90,43 @@ class FormularioScreen extends Component {
   sendData = async () => {
     const api = API.create()
     //const result = await api.getRoot()
-    const send = await api.postForm(this.state.formData)
+    const send = await api.postLogin(this.state.formData)
     //const send = await api.postForm("hola")
     //this.state.data = weather.data
     
-    console.log(send)
-    
+    var result = send.data
+    const { isLogin } = this.props;
 
+    console.log(result);
+
+    if(result.estado == "ko"){
+      Alert.alert(result.message);  
+      return false;
+    }else if (result.estado == "ok"){
+      try {
+        await AsyncStorage.setItem('@user:email', result.email);
+        console.log(result);
+        this.props.onChange(true);
+      } catch (error) {
+        console.log("Error en guardar el contacto: "+ error)
+      }
+    }
     this.setState({
-      result: result.ok
+      //result: result.ok
     })
-
-    window.alert(result.data.status)
-    //this.state.icon = weatherIcon(dataObjects.weather[0].icon)
-    //console.log(this.state.icon)
+   
   }
 
   render () {
     return (
       <View style={[styles.container, styles.mainContainer, styles.pBottom]}>
-        <TouchableOpacity onPress={() => this.props.navigation.goBack()} style={{
-          position: 'absolute',
-          paddingTop: 30,
-          paddingHorizontal: 5,
-          zIndex: 10
-        }}>
-          <Image source={Images.backButton} />
-        </TouchableOpacity>
-        <ScrollView style={styles.container}>
-            <View style={{alignItems: 'center', paddingBottom: 25}}>
-              <Text style={styles.titleText}>Formulario</Text>
-            </View>
-            <View style={{paddingBottom: 45}}>
+        <View style={styles.container}>
+          <View style={styles.logoView}>
+            <View style={styles.centered} >
+              <Image source={Images.GPb} style={styles.logo} />
+            </View>  
+          </View>
+          <View style={{paddingBottom: 45,paddingTop: 65}}>
               <Form
                 ref='registrationForm'
                 onFocus={this.handleFormFocus.bind(this)}
@@ -107,42 +136,9 @@ class FormularioScreen extends Component {
               >
               <Separator />
               <InputField
-                ref='name'
-                placeholder='First Name'
-                helpText={((self)=>{
-                  if(Object.keys(self.refs).length !== 0){
-                    if(!self.refs.registrationForm.refs.name.valid){
-                      return self.refs.registrationForm.refs.name.validationErrors.join("\n");
-                    }
-
-                  }
-                })(this)}
-                validationFunction={[(value)=>{
-                  /*
-                  you can have multiple validators in a single function or an array of functions
-                   */
-
-                  if(value == '') return "Required";
-                  //Initial state is null/undefined
-                  if(!value) return true;
-                  // Check if First Name Contains Numbers
-                  var matches = value.match(/\d+/g);
-                  if (matches != null) {
-                      return "First Name can't contain numbers";
-                  }
-
-                  return true;
-                }, (value)=>{
-                  ///Initial state is null/undefined
-                  if(!value) return true;
-                  return true;
-                }]}
-                />
-              <InputField
                 ref='email'
                 placeholder='E-mail'
                 keyboardType = 'email-address'
-                helpText='this is an helpful text it can be also very very long and it will wrap'
                 style={styles.input}
                 iconRight={
                   <Icon name='check'
@@ -174,44 +170,26 @@ class FormularioScreen extends Component {
                   return true;
                 }}
               />
-              <Separator />
-              <PickerField ref='sexo'
-                label='Gender'
-                options={{
-                  "": '',
-                  male: 'Male',
-                  female: 'Female'
-                }}/>
-                <DatePickerField ref='cumpleanos'
-                minimumDate={new Date('1/1/1900')}
-                maximumDate={new Date()}
-                placeholder='Birthday'
-                mode="date"
-                prettyPrint = { true }
-                />
-                <TimePickerField ref='hora'
-              placeholder='Meeting Time'/>
-                <Separator />
-                <LinkField label="Please accept the Terms & Conditions" onPress={()=>{}}/>
-                <SwitchField label='I accept Terms & Conditions'
-                  ref="lopd"
-                  helpText='Please read carefully the terms & conditions'/>
-
+              <InputField
+                ref='passwd'
+                placeholder='Password'
+                keyboardType = 'default'
+                secureTextEntry={ true }
+                style={styles.input}
+              />
               </Form>
               <RoundedButton 
                 text="Enviar"
                 onPress={() => this.sendForm()}
               />
-              <Text>{JSON.stringify(this.state.formData)}</Text>
             </View>
-        </ScrollView>
+        </View>
       </View>
     )
   }
 }
 
-//
-
+/*
 const mapStateToProps = (state) => {
   return {
   }
@@ -221,5 +199,6 @@ const mapDispatchToProps = (dispatch) => {
   return {
   }
 }
+*/
+export default connect()(LoginScreen)
 
-export default connect(mapStateToProps, mapDispatchToProps)(FormularioScreen)

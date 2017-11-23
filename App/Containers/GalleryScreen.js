@@ -16,17 +16,17 @@ import ImageViewerScreen from './ImageViewerScreen'
 import styles from './Styles/GalleryScreenStyle'
 
 class GalleryScreen extends Component {
-  
+
   constructor (props) {
     super(props)
 
-    const dataObjects = {}
-
     this.state = {
-      isLoading: true
+      isLoading: true,
     };
 
     this.getData()
+
+    this.addPhoto = this.addPhoto.bind(this);
   } 
 
   getData = async () => {
@@ -49,27 +49,22 @@ class GalleryScreen extends Component {
 
     this.setState({
       isLoading: false,
-      usuarioList: usuarioList
+      usuarioList: usuarioList,
+      imgArr: chatList.data
     })
+
   }
 
-  _onPressButton= () => {
-    this.props.navigation.navigate('ImageViewerScreen', { user: 'Lucy' })
-  }
-
-  addPhoto(){
+  addPhoto(){ 
   
     //Alert.alert('You\'ve upload a picture')
 
     //var ImagePicker = require('react-native-image-picker');
     
-    console.log(ImagePicker)
+    console.log(this.state.imgArr);
 
     var options = {
-      title: 'Select Avatar',
-      customButtons: [
-        {name: 'fb', title: 'Choose Photo from Facebook'},
-      ],
+      title: 'Select Source',
       storageOptions: {
         skipBackup: true,
         path: 'images'
@@ -77,7 +72,7 @@ class GalleryScreen extends Component {
     };
 
     ImagePicker.showImagePicker(options, (response) => {
-      console.log('Response = ', response);
+      console.log(response);
 
       if (response.didCancel) {
         console.log('User cancelled image picker');
@@ -91,12 +86,15 @@ class GalleryScreen extends Component {
       else {
         let source = { uri: response.uri };
 
+        
+
         // You can also display the image using data:
         // let source = { uri: 'data:image/jpeg;base64,' + response.data };
-
+        /*
         this.setState({
           avatarSource: source
         });
+        */
       }
     });
 

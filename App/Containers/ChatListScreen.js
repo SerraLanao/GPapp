@@ -3,7 +3,7 @@ import { ActivityIndicator,Button, Alert, View, Image, TouchableOpacity, ScrollV
 import { connect } from 'react-redux'
 import { Images } from '../Themes'
 import { StackNavigator } from 'react-navigation'
-
+import Loading from '../Components/Loading'
 import API from '../Services/Api'
 
 // Add Actions - replace 'Your' with whatever your reducer is called :)
@@ -45,8 +45,6 @@ class ChatListScreen extends Component {
     
     const chatList = await api.getChatList();
 
-    console.log(chatList);
-
     const usuarioList = chatList.data.usuarios.map(usuer =>(
       <TouchableOpacity style={styles.row} key={usuer.id} onPress={this.openChat}>
         <View style={styles.v25}>
@@ -82,9 +80,7 @@ class ChatListScreen extends Component {
   render () {
      if (this.state.isLoading) {
       return (
-        <View style={styles.loading}>
-          <ActivityIndicator size='large' />
-        </View>
+        <Loading />
       );
     }
     return (

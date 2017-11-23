@@ -91,7 +91,7 @@ def enableProguardInReleaseBuilds = false
 
 android {
     compileSdkVersion 23
-    buildToolsVersion '25.0.0'
+    buildToolsVersion '26.0.2'
 
     defaultConfig {
         applicationId "com.gpapp"
@@ -133,6 +133,7 @@ android {
 }
 
 dependencies {
+    compile project(':react-native-push-notification')
     compile project(':react-native-image-picker')
     compile project(':react-native-config')
     compile project(':react-native-maps')

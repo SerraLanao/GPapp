@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 import { Images } from '../Themes'
 import API from '../Services/Api'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import Loading from '../Components/Loading'
 // Add Actions - replace 'Your' with whatever your reducer is called :)
 // import YourActions from '../Redux/YourRedux'
 
@@ -67,9 +68,7 @@ class WeatherScreen extends Component {
   render () {
     if (this.state.isLoading) {
       return (
-        <View style={styles.loading}>
-          <ActivityIndicator size='large' />
-        </View>
+       <Loading />
       );
     }
     return (
