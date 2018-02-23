@@ -127,11 +127,13 @@ openForm = () => {
   this.props.navigation.navigate('FormScreen')
 }
 openChatList = () => { 
+  /*
   PushNotification.requestPermissions()
   PushNotification.localNotificationSchedule({
       message: "New message from XXXXX", // (required)
       date: new Date(Date.now() + (5 * 1000)) // in 5 secs
     });
+  */
   this.props.navigation.navigate('ChatListScreen')
 }
 openChatList2 = () => {
@@ -160,27 +162,26 @@ render () {
   }else{
     return (
       <View style={styles.mainContainer}>
-      <ScrollView showsVerticalScrollIndicator={false} bounces={false} style={styles.container}>
-      <View style={styles.logoView}>
-      <View style={styles.centered} >
-      <Image source={Images.GPb} style={styles.logo} />
-      </View>
-      </View>
-      <View style={styles.buttonsContainer}>
-      <BoxButton onPress={this.openChatList} style={styles.componentButton} image={Images.faq} text='Chat' />
-      <BoxButton onPress={this.openGaleria} style={styles.usageButton} image={Images.gallery} text='Galeria' />
-      </View>
-      <View style={styles.buttonsContainer}>
-      <BoxButton onPress={this.openForm} style={styles.apiButton} image={Images.form} text='Formulario' />
-      <BoxButton onPress={this.openWeather} image={Images.weather} text='Tiempo' />
-      </View>
-      <View style={styles.buttonsContainer}>
-      <BoxButton onPress={this.openMap} style={styles.deviceButton} image={Images.map} text='Mapas' />
-      <BoxButton onPress={this.openPersonal} style={styles.usageButton} image={Images.contact} text='Seccion Personal' />
-      </View>
-      <PushNotificationComponent />
-      </ScrollView>
-
+        <ScrollView showsVerticalScrollIndicator={false} bounces={false} style={styles.container}>
+          <View style={styles.logoView}>
+            <View style={styles.centered} >
+              <Image source={Images.GPb} style={styles.logo} />
+            </View>
+          </View>
+          <View style={styles.buttonsContainer}>
+            <BoxButton onPress={this.openChatList} style={styles.componentButton} image={Images.faq} text='Chat' />
+            <BoxButton onPress={this.openGaleria} style={styles.usageButton} image={Images.gallery} text='Galeria' />
+          </View>
+          <View style={styles.buttonsContainer}>
+            <BoxButton onPress={this.openForm} style={styles.apiButton} image={Images.form} text='Formulario' />
+            <BoxButton onPress={this.openWeather} image={Images.weather} text='Tiempo' />
+          </View>
+          <View style={styles.buttonsContainer}>
+            <BoxButton onPress={this.openMap} style={styles.deviceButton} image={Images.map} text='Mapas' />
+            <BoxButton onPress={this.openPersonal} style={styles.usageButton} image={Images.contact} text='Seccion Personal' />
+          </View>
+          <PushNotificationComponent />
+        </ScrollView>
       </View>
       )
   }

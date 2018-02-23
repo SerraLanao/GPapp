@@ -66,7 +66,8 @@ class WeatherScreen extends Component {
   }
 
   render () {
-    if (this.state.isLoading) {
+    //if (this.state.isLoading) {
+    if (true) {
       return (
        <Loading />
       );

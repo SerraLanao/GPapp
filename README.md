@@ -3,6 +3,23 @@
 
 * Standard compliant React Native App Utilizing [Ignite](https://github.com/infinitered/ignite)
 
+App para testeo de funcionalidades en React Native (playground)
+
+## FUNCIONES
+
+### Implementadas
+- Tiempo meteorologico
+- Galeria de imagenes
+- Mapas
+- Envio de formularios
+- Login
+- Sessión de usuario
+
+### Para dessarollar
+- Chat
+- Subida de imagenes
+- Notificaciones
+
 ## :arrow_up: How to Setup
 
 **Step 1:** git clone this repo:
