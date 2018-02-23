@@ -5,6 +5,8 @@
 
 App para testeo de funcionalidades en React Native (playground)
 
+version 1 - 23/02/2018
+
 ## FUNCIONES
 
 ### Implementadas
